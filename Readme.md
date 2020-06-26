@@ -1,3 +1,8 @@
+## httprunner 接口测试
+[![Build Status](https://travis-ci.org/chenzy01/test_httprunner.svg?branch=master)](https://travis-ci.org/chenzy01/test_httprunner)
+[![Coverage Status](https://coveralls.io/repos/github/chenzy01/test_httprunner/badge.svg?branch=master)](https://coveralls.io/github/chenzy01/test_httprunner?branch=master)
+
+
 ### 使用 poetry 工具创建一个虚拟环境
 
 创建一个pyproject.toml
