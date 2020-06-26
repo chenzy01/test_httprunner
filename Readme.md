@@ -104,12 +104,18 @@ def test_get_homepage():
         Travis 会监听这个仓库的所有变化
     - 为项目添加单元测试覆盖率检查( coverage & coveralls )
         - coverage & coveralls 这两个文件主要在开发时使用，放在开发者依赖中，与测试安装的依赖分开
-        - poetry add coverage --dev 增加开发依赖
-        - coverage run --source=test_mubu_login -m pytest  若用例执行的框架是 Pytest,若是未指定
-        --source则会执行很多不必要的模块
-        - coverage run --source=test_mubu_login -m unittest discover 若用例执行的框架是 unittest
-        - coverage run -m pytest httprunner-shijian  指定运行的模块
-        - coverage report 收集覆盖信息
+        - 使用 coverage 工具 (加上 poetry run 指定在 poetry 虚拟环境中执行)
+            - poetry add coverage --dev 增加开发依赖
+            - poetry run coverage run --source=test_mubu_login -m pytest  若用例执行的框架是 Pytest,若是未指定
+            --source则会执行很多不必要的模块
+            - poetry run coverage run --source=test_mubu_login -m unittest discover 若用例执行的框架是 unittest
+            - poetry run coverage run -m pytest httprunner-shijian  指定运行的模块
+            - poetry run coverage report 收集覆盖信息
+        - 使用 coveralls (httprunner)
+            - coveralls的使用方式与Travis CI类似，也需要先在coveralls网站上采用GitHub账号授权登录，
+        然后开启需要进行检查的GitHub仓库。而要执行的命令，也可以在.travis.yml配置文件中指定。
+            - poetry run coveralls
+        
 - 发布管理
 
 

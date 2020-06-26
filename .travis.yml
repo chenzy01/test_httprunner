@@ -15,8 +15,11 @@ install:
   - poetry install -vvv
 script:
   #- pytest test_mubu_login.py
-  - coverage run --source=test_mubu_login -m pytest
-  - coverage report
+  # 加上 poetry run 指定在 poetry 虚拟环境中执行
+  - poetry run coverage run --source=test_mubu_login -m pytest
+  - poetry run coverage report
+after_success:
+  - poetry run coveralls
   # - python -m httprunner.cli hrun -h
   # - poetry bulid
   # - poetry run coverage --source=httprunner -m unittest discover
