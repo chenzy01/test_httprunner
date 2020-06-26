@@ -14,7 +14,7 @@ install:
   - pip install poetry # 在初始化时安装所需要的依赖，另一种方式：- pip install requirements.txt
   - poetry install -vvv
 script:
-  - pytest httprunner-shijian/test_mubu_login.py
+  - pytest test_mubu_login.py
   # - python -m httprunner.cli hrun -h
   # - poetry bulid
   # - poetry run coverage --source=httprunner -m unittest discover
