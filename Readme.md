@@ -26,6 +26,7 @@ test_post_login()
 例子： 
 
 ```python
+import requests
 def test_get_homepage():
     url = "https://mubu.com/"
     headers = {
@@ -79,10 +80,18 @@ def test_get_homepage():
     - 选择持续集成服务器
         - GitHub > Travis CI
             - 1.创建 .travis.yml 文件
+            - .travis.yml 中 python: 的最低版本，要和 pyproject.toml 中 tool.poetry.dependencies 的 python
+            起始版本保持一致
+            - GitHub 中的仓库保持干净，不要有其它项目掺杂在一起。若仓库下面有多个二级目录，一个二级目录存放一个项目，
+            当向 GitHub 提交代码时，很可能不会触发自动构建。
+            - 在 Travis CI 界面，若是第一次提交了所有文件和代码，需要在界面右上角的 Settings 中，找到对应仓库，并激活。
+            回到已激活的界面，应该是在 Current 中，点击 Triger Build 按钮，即开始执行测试。往后向该仓库提交代码后，
+            便会自动触发构建。点击某个一次版本，查看 Job log ，有完整的构建记录。
         - Gitab > Gitab CI
         - SVN > Jenkins
         - Jenkins
     - 构建脚本
+        - 构建脚本是 .travis.yml 文件中
     - 单元测试
         - 单元测试依赖服务
             - httpbin.org
@@ -91,9 +100,16 @@ def test_get_homepage():
         - 搭建单元测试框架
             - pytest/unittest
     - 为项目添加持续集成构建检查(Travis CI)
+        - 访问 Travis CI 官网，用 GitHub 账号登录，同步所有仓库，选择你要构建的仓库，激活它，
+        Travis 会监听这个仓库的所有变化
     - 为项目添加单元测试覆盖率检查( coverage & coveralls )
         - coverage & coveralls 这两个文件主要在开发时使用，放在开发者依赖中，与测试安装的依赖分开
-        - poetry add coverage --dev
+        - poetry add coverage --dev 增加开发依赖
+        - coverage run --source=test_mubu_login -m pytest  若用例执行的框架是 Pytest,若是未指定
+        --source则会执行很多不必要的模块
+        - coverage run --source=test_mubu_login -m unittest discover 若用例执行的框架是 unittest
+        - coverage run -m pytest httprunner-shijian  指定运行的模块
+        - coverage report 收集覆盖信息
 - 发布管理
 
 
