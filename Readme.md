@@ -1,4 +1,5 @@
-## httprunner 接口测试
+## httprunner 接口测试  
+
 [![Build Status](https://travis-ci.org/chenzy01/test_httprunner.svg?branch=master)](https://travis-ci.org/chenzy01/test_httprunner)
 [![Coverage Status](https://coveralls.io/repos/github/chenzy01/test_httprunner/badge.svg?branch=master)](https://coveralls.io/github/chenzy01/test_httprunner?branch=master)
 
@@ -119,14 +120,62 @@ def test_get_homepage():
         - 使用 coveralls (httprunner)
             - coveralls的使用方式与Travis CI类似，也需要先在coveralls网站上采用GitHub账号授权登录，
         然后开启需要进行检查的GitHub仓库。而要执行的命令，也可以在.travis.yml配置文件中指定。
+        coveralls命令只有在测试覆盖率检查成功以后运行才有意义
             - poetry run coveralls
         
 - 发布管理
+    - 将项目制作为安装包
+    - 分发安装包
+    - 发布脚本   
+        - poetry publish --builid  在当前目录下面将项目打包
+        - 需要输入账号密码，是在pypi上面注册的账号密码，用上面命令发布后，会在pypi中形成安装包，
+        则其他人可以通过 pip install 库名称 该方式进行安装             
 
 
+### 需求规划（需求池）
 
-
-### 需求规划
+- 接口测试，核心需求梳理，从需求>测试>版本迭代
+    - 了解真正的需求，业务，都和手工测试人员多沟通
+    - 实现web接口协议层测试
+        - http,https
+        - 构造参数
+    - 接口请求保持登录态，即 session 保持
+    - 接口请求参数传递
+        - 接口响应提取
+            - jsonpath
+            - 正则匹配
+        - 参数关联机制
+    - 测试脚本支持接入 CI，使用命令行工具进行调用
+    - 统计用例运行的数据
+    - 多用例共享单个接口定义
+    - 数据驱动，用例和数据分离、参数化驱动
+    - 快速生成用例
+        - 录制用户操作请求
+            - 结合抓包工具
+            - curl
+            
+- 框架形式，目标效果
+    - 用例组织形式
+        - 接口
+        - 测试用例文档
+        - 用例集
+    - 脚本运行方式
+        - 类调用运行
+        - 命令行运行
+    - 结果展示
+        - 原始统计数据
+        - 运行日志
+        - 可视化测试报告
+    - 安装包分发、支持 pip 安装
+- 明确优先级，梳理用户故事，版本号规划(遵循一个最小可行性原则)
+    - 用户故事1：实现单个HTTP(S)接口的测试
+    - 用户故事2：在单个测试用例中实现复杂场景的测试
+    - 用户故事3：接口测试用例支持命令行运行
+    - 用户故事4：测试结果的统计和展现
+    
+- 为什么用 YAML/JSON 组织测试用例
+    - 结构简洁、简单，便于维护
+    - 参考其他开源项目的做法
 
 
 
