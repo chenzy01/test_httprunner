@@ -5,6 +5,7 @@ class TestMubuLogin:
 
     def test_get_homepage(self):
         url = "https://mubu.com/"
+        method = "GET"
         headers = {
                     "sec-fetch-dest": "document",
                     "sec-fetch-mode": "navigate",
@@ -13,12 +14,17 @@ class TestMubuLogin:
                     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36(KHTML, like Gecko) "
                                   "Chrome/80.0.3987.149 Safari/537.36 "
         }
-        r = requests.get(url, headers=headers, verify=False)
+        kwargs = {
+            "headers": headers,
+            "verify": False,
+        }
+        r = requests.request(method, url, **kwargs)
         print(r.text)
         assert r.status_code == 200
 
     def test_get_login(self):
         url = "https://mubu.com/login"
+        method = "GET"
         headers = {
                     "sec-fetch-dest": "document",
                     "sec-fetch-mode": "navigate",
@@ -27,12 +33,17 @@ class TestMubuLogin:
                     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36(KHTML, like Gecko) "
                                   "Chrome/80.0.3987.149 Safari/537.36 "
         }
-        r = requests.get(url, headers=headers, verify=False)
+        kwargs = {
+            "headers": headers,
+            "verify": False,
+        }
+        r = requests.request(method, url, **kwargs)
         print(r.text)
         assert r.status_code == 200
 
     def test_get_login_password(self):
         url = "https://mubu.com/login/password"
+        method = "GET"
         headers = {
                     "sec-fetch-dest": "document",
                     "sec-fetch-mode": "navigate",
@@ -41,12 +52,17 @@ class TestMubuLogin:
                     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36(KHTML, like Gecko) "
                                   "Chrome/80.0.3987.149 Safari/537.36 "
         }
-        r = requests.get(url, headers=headers, verify=False)
+        kwargs = {
+            "headers": headers,
+            "verify": False,
+        }
+        r = requests.request(method, url, **kwargs)
         # print(r.text)
         assert r.status_code == 200
 
     def test_post_login(self):
         url = "https://mubu.com/api/login/submit"
+        method = "POST"
         headers = {
 
             "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -58,7 +74,12 @@ class TestMubuLogin:
             "x-requested-with": "XMLHttpRequest",
         }
         data = {"phone": 15820723515, "password": "101402108mynba"}
-        r = requests.post(url, headers=headers, data=data, verify=False)
+        kwargs = {
+            "headers": headers,
+            "data": data,
+            "verify": False,
+        }
+        r = requests.request(method, url, **kwargs)
         # print(r.text)
         assert r.status_code == 200
         r_json = r.json()
