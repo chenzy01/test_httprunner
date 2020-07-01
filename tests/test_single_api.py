@@ -1,6 +1,7 @@
 import os
 import pytest
 from utils.loader import load_yaml
+from utils.runner import run_yaml
 
 
 class TestSingleApi:
@@ -18,10 +19,10 @@ class TestSingleApi:
         loaded_json = load_yaml(single_api_yaml)  # 加载这个yml文件，转换成字典格式
         assert loaded_json["url"] == "https://mubu.com/"
 
-    # def test_run_single_api(self):
-    #     single_api_yaml = os.path.join(os.getcwd(), "api", "get_homepage.yml")
-    #     resp = run_yaml(single_api_yaml)
-    #     assert resp.status_code == 200
+    def test_run_single_api(self):
+        single_api_yaml = os.path.join(os.getcwd(), "api", "get_homepage.yml")
+        resp = run_yaml(single_api_yaml)  # run_yaml() 中 最终请求的数据是 headers
+        assert resp.status_code == 200
 
 
 
