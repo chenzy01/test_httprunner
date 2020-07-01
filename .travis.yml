@@ -14,14 +14,15 @@ install:
   - pip install poetry # 在初始化时安装所需要的依赖，另一种方式：- pip install requirements.txt
   - poetry install -vvv
 script:
-  #- pytest test_mubu_login.py
+  #- pytest mubu_login.py
   # 加上 poetry run 指定在 poetry 虚拟环境中执行
   - poetry run coverage run --source=test_mubu_login -m pytest
   - poetry run coverage report
 after_success:
-  - poetry run coveralls
+  # - poetry run coveralls
   # - python -m httprunner.cli hrun -h
   # - poetry bulid
   # - poetry run coverage --source=httprunner -m unittest discover
 # after_success:
   # - poetry run coveralls
+  - poetry run coverage run --source=httprunner-shijian -m pytest
