@@ -117,6 +117,7 @@ def test_get_homepage():
             - poetry run coverage run --source=test_mubu_login -m unittest discover 若用例执行的框架是 unittest
             - poetry run coverage run -m pytest httprunner-shijian  指定运行的模块
             - poetry run coverage report 收集覆盖信息
+            - pip install pytest-cov pytest统计代码测试覆盖率，要先安装该插件 使用命令 pytest --cov=src 
         - 使用 coveralls (httprunner)
             - coveralls的使用方式与Travis CI类似，也需要先在coveralls网站上采用GitHub账号授权登录，
         然后开启需要进行检查的GitHub仓库。而要执行的命令，也可以在.travis.yml配置文件中指定。
@@ -175,10 +176,11 @@ def test_get_homepage():
             - 如何用YAML描述单个接口
                 - YAML 语法
                 - loader: yaml => json
+                - 使用 pyyaml 工具：poetry add pyyaml
             - 如何将YAML脚本运行起来
             - 如何在YAML中实现接口响应校验
         - 验收标准
-            - test_loader_single_api
+            - test_loader_single_api  每写一个接口，都要有对应的测试来验证这个接口是否可以用，返回数据是正常且正确
     - 用户故事2：在单个测试用例中实现复杂场景的测试
     - 用户故事3：接口测试用例支持命令行运行
     - 用户故事4：测试结果的统计和展现
