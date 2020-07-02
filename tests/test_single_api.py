@@ -20,20 +20,22 @@ class TestSingleApi:
         assert loaded_json["request"]["url"] == "https://mubu.com/"
 
     def test_run_single_api(self):
-        single_api_yaml = os.path.join(os.getcwd(), "api", "get_homepage.yml")
-        result = run_yaml(single_api_yaml)  # run_yaml() 中 最终请求的数据是 headers
-        assert result is True
+        # single_api_yaml = os.path.join(os.getcwd(), "api", "get_homepage.yml")
+        # print(single_api_yaml)
+        # result = run_yaml(single_api_yaml)  # run_yaml() 中 最终请求的数据是 headers
+        # assert result is True
 
-        single_api_yaml = os.path.join(os.getcwd(), "api", "get_login.yml")
+        single_api_yaml = os.path.join(os.path.dirname(__file__), "api", "get_login.yml")
         result = run_yaml(single_api_yaml)
         assert result is True
 
-        single_api_yaml = os.path.join(os.getcwd(), "api", "get_login_password.yml")
+        single_api_yaml = os.path.join(os.path.dirname(__file__), "api", "get_login_password.yml")
         result = run_yaml(single_api_yaml)
         assert result is True
 
     def test_run_single_api_yaml_with_jsonpath(self):
-        single_api_yaml = os.path.join(os.getcwd(), "api", "get_login_submit.yml")
+        single_api_yaml = os.path.join(os.path.dirname(__file__), "api", "get_login_submit.yml")
+        print(single_api_yaml)
         result = run_yaml(single_api_yaml)
         assert result is True
 
