@@ -25,4 +25,4 @@ after_success:
   # - poetry run coverage --source=httprunner -m unittest discover
 # after_success:
   # - poetry run coveralls
-  - poetry run coverage run --source=httprunner-shijian -m pytest
+  - poetry run coverage run --source=httprunner-shijian/tests -m pytest

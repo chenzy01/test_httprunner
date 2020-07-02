@@ -1,10 +1,14 @@
-# request:
-url: "https://mubu.com/api/login/submit"
-method: "POST"
-headers:
-    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36 "
-    "content-type": "application/x-www-form-urlencoded;charset=UTF-8"
-data:
-    "phone": 15820723515
-    "password": "101402108mynba"
-verify: False
+request:
+    url: "https://mubu.com/api/login/submit"
+    method: "POST"
+    headers:
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36 "
+        "content-type": "application/x-www-form-urlencoded;charset=UTF-8"
+    data:
+        "phone": 15820723515
+        "password": "101402108mynba"
+    verify: False
+validate:
+    status_code: 200
+    # content.code: 0
+    $.code: 0

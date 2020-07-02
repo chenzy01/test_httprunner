@@ -1,6 +1,12 @@
+import jsonpath
 import requests
 
 from utils.loader import load_yaml
+
+
+def extract_json_field(resp, json_field):
+    value = jsonpath.jsonpath(resp.json(), json_field)
+    return value[0]
 
 
 def run_yaml(yaml_file):
@@ -18,7 +24,13 @@ def run_yaml(yaml_file):
 
     validator_mapping = load_json["validate"]  # 提取数据中 validate 部分
     for key in validator_mapping:
-        actual_value = getattr(resp, key)  # 等价于 resp.key
+        if "$" in key:
+            actual_value = extract_json_field(resp, key)  # key = $.code
+        else:
+            actual_value = getattr(resp, key)  # 等价于 resp.key
         expect_value = validator_mapping[key]
+        # print(actual_value)
+        # print("***")
+        # print(expect_value)
         assert expect_value == actual_value
     return True

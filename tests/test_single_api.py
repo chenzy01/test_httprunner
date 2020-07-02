@@ -32,6 +32,7 @@ class TestSingleApi:
         result = run_yaml(single_api_yaml)
         assert result is True
 
+    def test_run_single_api_yaml_with_jsonpath(self):
         single_api_yaml = os.path.join(os.getcwd(), "api", "get_login_submit.yml")
         result = run_yaml(single_api_yaml)
         assert result is True
