@@ -17,12 +17,24 @@ class TestSingleApi:
         single_api_yaml = os.path.join(os.path.dirname(__file__), "api", "get_homepage.yml")
         # os.path.dirname(__file__) 返回当前脚本的绝对路径 C:\Users\CZY\PycharmProjects\HttpRunner_pra\httprunner-shijian\tests
         loaded_json = load_yaml(single_api_yaml)  # 加载这个yml文件，转换成字典格式
-        assert loaded_json["url"] == "https://mubu.com/"
+        assert loaded_json["request"]["url"] == "https://mubu.com/"
 
     def test_run_single_api(self):
         single_api_yaml = os.path.join(os.getcwd(), "api", "get_homepage.yml")
-        resp = run_yaml(single_api_yaml)  # run_yaml() 中 最终请求的数据是 headers
-        assert resp.status_code == 200
+        result = run_yaml(single_api_yaml)  # run_yaml() 中 最终请求的数据是 headers
+        assert result is True
+
+        single_api_yaml = os.path.join(os.getcwd(), "api", "get_login.yml")
+        result = run_yaml(single_api_yaml)
+        assert result is True
+
+        single_api_yaml = os.path.join(os.getcwd(), "api", "get_login_password.yml")
+        result = run_yaml(single_api_yaml)
+        assert result is True
+
+        single_api_yaml = os.path.join(os.getcwd(), "api", "get_login_submit.yml")
+        result = run_yaml(single_api_yaml)
+        assert result is True
 
 
 
