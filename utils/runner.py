@@ -5,13 +5,20 @@ from utils.loader import load_yaml
 
 def run_yaml(yaml_file):
     """
-    加载文件后，返回数据
+    加载文件后，返回数据;然后用request发起请求，获得状态码，与期望值比较
     :param yaml_file: 加载的 yml 文件
     :return:
     """
     load_json = load_yaml(yaml_file)
-    method = load_json.pop("method")
-    url = load_json.pop("url")
-    resp = requests.request(method, url, **load_json)
+    request_data = load_json["request"]  # 提取数据中 request 部分
+    method = request_data.pop("method")
+    url = request_data.pop("url")
+    resp = requests.request(method, url, **request_data)  # 发起请求
     # 因为这里使用了 requests 库，method与url都pop后，只剩下 headers
-    return resp
+
+    validator_mapping = load_json["validate"]  # 提取数据中 validate 部分
+    for key in validator_mapping:
+        actual_value = getattr(resp, key)  # 等价于 resp.key
+        expect_value = validator_mapping[key]
+        assert expect_value == actual_value
+    return True
