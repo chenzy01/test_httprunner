@@ -16,7 +16,7 @@ install:
 script:
   #- pytest mubu_login.py
   # 加上 poetry run 指定在 poetry 虚拟环境中执行
-  - poetry run coverage run --source=test_mubu_login -m pytest
+  - poetry run coverage run --source=test_single_api -m pytest
   - poetry run coverage report
 after_success:
   # - poetry run coveralls
