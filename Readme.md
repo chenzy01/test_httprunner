@@ -189,6 +189,13 @@ def test_get_homepage():
             - test_run_single_yaml 从单个yaml接口开始，让它先运行起来
     - 用户故事2：在单个测试用例中实现复杂场景的测试
     - 用户故事3：接口测试用例支持命令行运行
+        - 概述：作为测试脚本编写的用户，期望通过命令行运行单个接口的YAML脚本，以便可以在CI中实现用例的调用运行
+        - 详述
+            - 命令行工具
+            - 命令形式
+                - hogrun ***.yml
+        - 验收标准
+            - hogrun test/api/api_login_submit.yml
     - 用户故事4：测试结果的统计和展现
     
 - 为什么用 YAML/JSON 组织测试用例
