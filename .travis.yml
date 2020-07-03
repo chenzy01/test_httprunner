@@ -16,7 +16,7 @@ install:
 script:
   #- pytest mubu_login.py
   # 加上 poetry run 指定在 poetry 虚拟环境中执行
-  - poetry run coverage run --source=httprunner-shijian -m pytest
+  - poetry run coverage run --source=httprunner-shijian/tests -m pytest
   - poetry run coverage report
 after_success:
   # - poetry run coveralls
@@ -24,5 +24,4 @@ after_success:
   # - poetry bulid
   # - poetry run coverage --source=httprunner -m unittest discover
 # after_success:
-  # - poetry run coveralls
-  - poetry run coverage run --source=httprunner-shijian/tests -m pytest
+   - poetry run coveralls
