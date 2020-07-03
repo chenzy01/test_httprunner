@@ -1,6 +1,8 @@
 ## httprunner 接口测试  
-
+将 travis-ci 构建的图标显示在 Readme 首页  
 [![Build Status](https://travis-ci.org/chenzy01/test_httprunner.svg?branch=master)](https://travis-ci.org/chenzy01/test_httprunner)
+
+将 coverage 覆盖率图片显示在 Readme 首页
 [![Coverage Status](https://coveralls.io/repos/github/chenzy01/test_httprunner/badge.svg?branch=master)](https://coveralls.io/github/chenzy01/test_httprunner?branch=master)
 
 
@@ -10,7 +12,9 @@
 poetry init 
 
 增加依赖，如 requests
-poetry add requests
+poetry add requests  该命令会在 pyproject.toml 文件的[tool.poetry.dependencies]字段下，增加相应的依赖及版本  
+但增加依赖后，可能并不能立即使用，因为没有在解释器的环境中安装该软件，可以进入 Setting 中查看，若是没有安装软件
+则要在命令行安装：pip install ***软件名称 或者在 Setting > Project interpreter 中安装
 
 增加依赖后，会在相应的目录下创建虚拟环境，
 Creating virtualenv httprunner-sVRwEayY-py3.7 in C:\Users\CZY\AppData\Local\pypoetry\Cache\virtualenvs
@@ -19,7 +23,7 @@ Creating virtualenv httprunner-sVRwEayY-py3.7 in C:\Users\CZY\AppData\Local\pypo
 C:\Users\CZY\AppData\Local\pypoetry\Cache\virtualenvs\httprunner-sVRwEayY-py3.7\Scripts
 
 
-###
+### 登录幕布操作，抓包登录信息
 
 用抓包工具，先登录一次幕布，记录下登录信息，过滤： mubu.com
 根据相关接口，及接口的信息，构造请求数据
@@ -80,24 +84,42 @@ def test_get_homepage():
     - 用户故事：从用户的角度来描述他的期望，包括：整体概述、详述、验收标准
 - github 仓库创建
     - 在 gibhub 创建一个仓库，在本地的项目下，初始化仓库 git init，然后与远程仓库连接 git remote add origin 仓库地址
+    - 将创建的文件提交到 github 上，便于后面与 travis-ci 做持续集成测试
 - 项目依赖管理
     - poetry+pyproject.toml
+    pyproject.toml 文件的格式  
+    ```yaml
+    [tool.poetry]
+        name = "httprunner"
+        version = "0.1.0"
+        description = ""
+        authors = ["chenzy"]
+        license = "MIT"
+    [tool.poetry.dependencies] # 项目依赖
+        python = "^3.5"
+    [tool.poetry.dev-dependencies] # 开发环境依赖
+        coverage = "^5.1"
+    [build-system]
+        requires = ["poetry>=0.12"]
+        build-backend = "poetry.masonry.api"
+    ```
+
 - 持续集成&测试
     - 选择持续集成服务器
         - GitHub > Travis CI
             - 1.创建 .travis.yml 文件
             - .travis.yml 中 python: 的最低版本，要和 pyproject.toml 中 tool.poetry.dependencies 的 python
-            起始版本保持一致
+            起始版本保持一致 
             - GitHub 中的仓库保持干净，不要有其它项目掺杂在一起。若仓库下面有多个二级目录，一个二级目录存放一个项目，
             当向 GitHub 提交代码时，很可能不会触发自动构建。
             - 在 Travis CI 界面，若是第一次提交了所有文件和代码，需要在界面右上角的 Settings 中，找到对应仓库，并激活。
             回到已激活的界面，应该是在 Current 中，点击 Triger Build 按钮，即开始执行测试。往后向该仓库提交代码后，
             便会自动触发构建。点击某个一次版本，查看 Job log ，有完整的构建记录。
-        - Gitab > Gitab CI
+        - Gilab > Gilab CI
         - SVN > Jenkins
         - Jenkins
     - 构建脚本
-        - 构建脚本是 .travis.yml 文件中
+        - 构建脚本是 .travis.yml 文件中 poetry run coverage run --source=httprunner-shijian/tests -m pytest
     - 单元测试
         - 单元测试依赖服务
             - httpbin.org
@@ -146,10 +168,11 @@ def test_get_homepage():
             - jsonpath
             - 正则匹配
         - 参数关联机制
-    - 测试脚本支持接入 CI，使用命令行工具进行调用
+    - 测试脚本支持接入 CI，使用命令行工具进行调用,脚本写入 .travis.yml 文件中
     - 统计用例运行的数据
     - 多用例共享单个接口定义
     - 数据驱动，用例和数据分离、参数化驱动
+        - 用例数据放在 test/api/ 目录下，使用 yaml 格式组织数据
     - 快速生成用例
         - 录制用户操作请求
             - 结合抓包工具
@@ -167,6 +190,7 @@ def test_get_homepage():
         - 原始统计数据
         - 运行日志
         - 可视化测试报告
+            - 测试代码覆盖率，pytest 工具，命令：pytest --cob=src (src 是某个指定的测试目录或文件)
     - 安装包分发、支持 pip 安装
 - 明确优先级，梳理用户故事，版本号规划(遵循一个最小可行性原则)
     - 用户故事1：实现单个HTTP(S)接口的测试
@@ -175,18 +199,88 @@ def test_get_homepage():
         - 详述
             - 如何用YAML描述单个接口
                 - YAML 语法
-                - loader: yaml => json
+                - loader: yaml => json ，使用 yaml.load(data)
                 - 使用 pyyaml 工具：poetry add pyyaml
             - 如何将YAML脚本运行起来
-                - 使用yaml语法描述数据
-                - 写一个接口，用来加载该数据，加载成后返回数据供调用
+                - 使用yaml语法描述数据,如
+                ```yaml
+                request:
+                    url: "https://mubu.com/"
+                    method: "GET"
+                    headers:
+                        "user-agent": "Mozilla/5.0 ..."
+                    verify: False
+                validate:
+                    status_code: 200
+                ```  
+              
+                - 写一个接口，用来加载该数据，加载成后返回数据供调用  
+                ```python
+                import yaml
+                def load_yaml(yml_file):
+                    with open(yml_file, "r") as f:
+                        loaded_json = yaml.load(f.read())
+                        return loaded_json
+
+                ```     
+              
                 - 写一个接口，调用加载数据函数，发起请求或进行其他操作，然后将期望值与结果值比较，进行断言
             - 如何在YAML中实现接口响应校验
                 - status_code 判断状态码
                 - 响应为json格式，对响应中的特定字段进行校验。考虑返回的数据，使用怎样的数据格式如何提取才更加方便。
         - 验收标准
-            - test_loader_single_api  每写一个接口，都要有对应的测试来验证这个接口是否可以用，返回数据是正常且正确
+            - test_loader_single_api  每写一个接口，都要有对应的测试来验证这个接口是否可以用，返回数据是正常且正确  
+            ```python
+            import os
+            from utils.loader import load_yaml
+            def test_loader_single_api(self):
+                """
+                加载出的接口请求参数与原始信息一致
+                :return: 无
+                """
+                # 取得当前目录，拼接得到 get_homepage.yml 文件的绝对路径
+                # single_api_yaml = os.path.join(os.getcwd(), "api", "get_homepage.yml")
+                # os.getcwd()：返回当前目录：C:\Users\CZY\PycharmProjects\HttpRunner_pra\httprunner-shijian\tests
+                single_api_yaml = os.path.join(os.path.dirname(__file__), "api", "get_homepage.yml")
+                # os.path.dirname(__file__) 返回当前脚本的绝对路径 C:\Users\CZY\PycharmProjects\HttpRunner_pra\httprunner-shijian\tests
+                loaded_json = load_yaml(single_api_yaml)  # 加载这个yml文件，转换成字典格式
+                assert loaded_json["request"]["url"] == "https://mubu.com/"
+
+            ```
+          
             - test_run_single_yaml 从单个yaml接口开始，让它先运行起来
+            ```python
+            import requests
+            import jsonpath
+            from utils.loader import load_yaml
+            def extract_json_field(resp, json_field):
+                value = jsonpath.jsonpath(resp.json(), json_field)
+                return value[0]
+          
+            def run_yaml(yaml_file):
+                """
+                加载文件后，返回数据;然后用request发起请求，获得状态码，与期望值比较
+                :param yaml_file: 加载的 yml 文件
+                :return:
+                """
+                load_json = load_yaml(yaml_file)
+                request_data = load_json["request"]  # 提取数据中 request 部分
+                method = request_data.pop("method")
+                url = request_data.pop("url")
+                resp = requests.request(method, url, **request_data)  # 发起请求
+                # 因为这里使用了 requests 库，method与url都pop后，只剩下 headers
+            
+                validator_mapping = load_json["validate"]  # 提取数据中 validate 部分
+                for key in validator_mapping:
+                    if "$" in key:
+                        actual_value = extract_json_field(resp, key)  # key = $.code
+                    else:
+                        actual_value = getattr(resp, key)  # 等价于 resp.key
+                    expect_value = validator_mapping[key]
+                    assert expect_value == actual_value
+                return True
+
+            ```
     - 用户故事2：在单个测试用例中实现复杂场景的测试
     - 用户故事3：接口测试用例支持命令行运行
         - 概述：作为测试脚本编写的用户，期望通过命令行运行单个接口的YAML脚本，以便可以在CI中实现用例的调用运行
