@@ -13,7 +13,7 @@ def run_yaml(yaml_file):
     """
     加载文件后，返回数据;然后用request发起请求，获得状态码，与期望值比较
     :param yaml_file: 加载的 yml 文件
-    :return:
+    :return: 数据完成提取后，返回 True
     """
     load_json = load_yaml(yaml_file)
     request_data = load_json["request"]  # 提取数据中 request 部分
