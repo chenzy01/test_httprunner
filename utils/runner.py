@@ -1,8 +1,12 @@
 import jsonpath
 import requests
+from requests import sessions
 
 from utils.loader import load_yaml
 from utils.validate import *
+
+# 增加 session 机制
+session = sessions.Session()
 
 
 def extract_json_field(resp, json_field):
@@ -22,7 +26,7 @@ def run_api(api_info):
     request_data = api_info["request"]  # 提取数据中 request 部分
     method = request_data.pop("method")
     url = request_data.pop("url")
-    resp = requests.request(method, url, **request_data)  # 发起请求
+    resp = session.request(method, url, **request_data)  # 采用session方式发起请求，避免每次请求都创建一个session
     # 因为这里使用了 requests 库，method与url都pop后，只剩下 headers
     # 对单个接口进行校验
     validator_mapping = api_info["validate"]  # 提取数据中 validate 部分
