@@ -27,6 +27,8 @@
             "phone": 15820723515
             "password": "101402108mynba"
         verify: False
+    extract:
+        code: $.code
     validate:
         status_code: 200
         # content.code: 0
@@ -34,7 +36,7 @@
 
 -
     request:
-        url: "https://mubu.com/list"
+        url: "https://mubu.com/list?code=$code"
         method: "GET"
         headers:
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36 "
