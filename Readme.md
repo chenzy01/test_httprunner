@@ -290,7 +290,75 @@ def test_get_homepage():
                 - hogrun ***.yml
         - 验收标准
             - hogrun test/api/api_login_submit.yml
-    - 用户故事4：测试结果的统计和展现
+        ```python
+        # 主要实现代码
+        import argparse
+        import sys
+        from utils.runner import run_yaml
+      
+        def main():
+            """ API test: parse command line options and run commands.
+            """
+            parser = argparse.ArgumentParser(description="httprunner")
+            parser.add_argument(
+                '-V', '--version', dest='version', action='store_true',
+                help="show version"
+            )
+            parser.add_argument(
+                'yaml_path', nargs='*',
+                help="yaml file path"
+            )
+
+            args = parser.parse_args()
+        
+            if len(sys.argv) == 1:
+                # no argument passed
+                parser.print_help()
+                return 0
+
+            print("testcase_paths----", args.testcase_paths)
+            # 这里在命令行书写路径时，绝对路径和相对路径都可以写，路径要用“/”，建议使用相对路径
+            api_yml_file = args.testcase_paths[0]
+            success = run_yaml(args.yaml_path)  # 检查运行单个 yaml 后的状态
+            print(success)
+
+        if __name__ == '__main__':
+            main()
+
+        ```
+    - 用户故事4：实现多个接口串行测试
+        - 概述：作为测试脚本编写的用户，期望通过YAML的形式描述多个接口，并可将YAML运行起来，以便实现采用
+        YAML描述场景化的接口测试脚本
+        - 详述
+            - 如何采用 yaml 描述测试用例，多个HTTP接口串行请求
+                - yaml 语法描述
+                ```yaml
+                -
+                    request:
+                        url: "https://mubu.com/"
+                        method: "GET"
+                        headers:
+                            "user-agent": "Mozilla/5.0 ..."
+                        verify: False
+                    validate:
+                        status_code: 200
+                -
+                    request:
+                        url: "https://mubu.com/login"
+                        method: "GET"
+                        headers:
+                            "user-agent": "Mozilla/5.0 ... "
+                        verify: False
+                    validate:
+                        status_code: 200
+                ```
+                - loader: yaml => json
+            - 如何将 yaml 测试用例运行起来
+            - 如何实现参数关联机制
+        - 验收标准
+            
+        
+    - 用户故事5：测试结果的统计和展现
     
 - 为什么用 YAML/JSON 组织测试用例
     - 手写脚本重复多，效率低
